@@ -1,0 +1,24 @@
+{
+  "name": "grid-tracker",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "description": "A minimalist, offline-first grid habit tracker — habits, sleep, mood and fasting in one page. Export to CSV for Excel or Notion.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "typescript": "5.5.3"
+  }
+}
