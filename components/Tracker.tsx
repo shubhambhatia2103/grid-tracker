@@ -386,7 +386,7 @@ export default function Tracker() {
                 <div className="grid-row metric-header">
                   <div className="rowlabel metric-name">
                     <span className="name">{cfg.label}</span>
-                    <span className="avg">avg {fmtAvg(cfg.key, avg, cfg.unit)}</span>
+                    <span className="avg">Δ {fmtAvg(cfg.key, avg, cfg.unit)}</span>
                   </div>
                   <div className="headfill" />
                 </div>
