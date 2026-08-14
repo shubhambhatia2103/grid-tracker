@@ -386,7 +386,7 @@ export default function Tracker() {
                 <div className="grid-row metric-header">
                   <div className="rowlabel metric-name">
                     <span className="name">{cfg.label}</span>
-                    <span className="avg">avg {fmtAvg(cfg.key, avg, cfg.unit)}</span>
+                    <span className="avg">Δ {fmtAvg(cfg.key, avg, cfg.unit)}</span>
                   </div>
                   <div className="headfill" />
                 </div>
@@ -586,9 +586,12 @@ function Header({
 function Footer() {
   return (
     <div className="foot">
-      <strong>Export &amp; move it anywhere.</strong> The CSV opens straight in
-      Excel and imports into Notion as a database (New table → Import → CSV).
-      One row per day, one column per habit.
+      <strong>Export &amp; move it anywhere.</strong> One row per day, one column
+      per habit. <strong>Excel:</strong> just open the CSV.{" "}
+      <strong>Notion:</strong> New page → <em>Import</em> → CSV → pick the file,
+      and it becomes a database. Notion brings columns in as text, so switch{" "}
+      <em>Date</em> to a Date property (and <em>Sleep / Fasting</em> to Number)
+      if you want them typed.
       <br />
       Open source · your data never leaves your browser ·{" "}
       <a href="https://shubhambhatia.in" target="_blank" rel="noreferrer">
