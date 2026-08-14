@@ -500,13 +500,6 @@ export default function Tracker() {
         </div>
       </div>
 
-      <p className="hint">
-        Click a cell to mark it. Habits toggle on/off; in Sleep / Mood / Fasting
-        each day takes one mark and the line joins them. Click a habit name or a
-        Y-axis value to edit it. Use <strong>start day</strong> to begin the
-        month wherever you like. Everything saves in this browser only.
-      </p>
-
       <Footer />
     </main>
   );
@@ -586,14 +579,8 @@ function Header({
 function Footer() {
   return (
     <div className="foot">
-      <strong>Export &amp; move it anywhere.</strong> One row per day, one column
-      per habit. <strong>Excel:</strong> just open the CSV.{" "}
-      <strong>Notion:</strong> New page → <em>Import</em> → CSV → pick the file,
-      and it becomes a database. Notion brings columns in as text, so switch{" "}
-      <em>Date</em> to a Date property (and <em>Sleep / Fasting</em> to Number)
-      if you want them typed.
-      <br />
-      Open source · your data never leaves your browser ·{" "}
+      Export opens in Excel, or imports into Notion as a database (New page →
+      Import → CSV). Open source ·{" "}
       <a href="https://shubhambhatia.in" target="_blank" rel="noreferrer">
         shubhambhatia.in
       </a>
