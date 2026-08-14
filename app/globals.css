@@ -45,16 +45,6 @@ html, body {
   font-size: 14px;
 }
 
-/* Faint graph-paper backdrop, echoing the original diary. */
-body {
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 22px 22px;
-  background-position: -1px -1px;
-  opacity: 1;
-}
-
 button {
   font-family: inherit;
   font-size: inherit;
@@ -347,11 +337,6 @@ button {
   line-height: 1.6;
 }
 .foot a { color: var(--ink); }
-.hint {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-}
 
 .pill {
   display: inline-block;
