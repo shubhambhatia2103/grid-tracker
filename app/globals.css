@@ -12,6 +12,7 @@
   --line-strong: #c7c4b6;
   --weekend: #efeee7;
   --accent-soft: #e7ecfb;
+  --today: #dfe7fb;
   --danger: #b23b3b;
 }
 
@@ -26,6 +27,7 @@
     --line-strong: #3a3f48;
     --weekend: #191c21;
     --accent-soft: #232a3d;
+    --today: #26314d;
     --danger: #e07a7a;
   }
 }
@@ -118,6 +120,24 @@ button {
 }
 .spacer { flex: 1 1 auto; }
 
+.startctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.startctl select {
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+.startctl select:hover { border-color: var(--ink); }
+
 .action {
   border: 1px solid var(--line-strong);
   background: var(--panel);
@@ -187,6 +207,17 @@ button {
 .cell.weekend { background: var(--weekend); }
 .cell:last-child { border-right: none; }
 
+/* today's column — an ink rule running top to bottom */
+.today { background: var(--today); }
+.today {
+  box-shadow: inset 1px 0 0 0 var(--ink), inset -1px 0 0 0 var(--ink);
+}
+.head-num.today { color: var(--ink); font-weight: 700; }
+
+/* days before the chosen start day are left out */
+.pre { opacity: 0.35; }
+.habit-cell:disabled { pointer-events: none; }
+
 /* habit cells */
 .habit-cell {
   background: none;
@@ -255,61 +286,58 @@ button {
 
 /* ---------- metric section ---------- */
 .metric {
-  border-bottom: 1px solid var(--line);
+  position: relative; /* anchor for the trend-line overlay */
+  border-top: 1px solid var(--line-strong);
 }
-.metric-chart-row {
-  display: grid;
-  grid-template-columns: var(--label) 1fr;
-}
-.metric-label {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  background: var(--panel);
-  border-right: 1px solid var(--line-strong);
-  display: flex;
+.metric-header .rowlabel,
+.metric-name {
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
-  padding: 0 10px;
+  gap: 0;
 }
-.metric-label .name { font-weight: 700; }
-.metric-label .avg {
+.metric-name .name { font-weight: 700; }
+.metric-name .avg {
   color: var(--ink);
   font-size: 12px;
-  margin-top: 2px;
+  margin-top: 1px;
 }
-.metric-svg-holder {
-  padding: 8px 0;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent calc(var(--col) - 1px),
-      var(--line) calc(var(--col) - 1px),
-      var(--line) var(--col)
-    );
-}
-.metric-input-row .metric-label { border-top: 1px solid var(--line); }
-
-.mcell {
-  width: 100%;
+.metric-header .headfill {
+  grid-column: 2 / -1;
   height: var(--row);
-  border: none;
-  border-right: 1px solid var(--line);
-  border-top: 1px solid var(--line);
-  background: none;
-  text-align: center;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 12px;
-  padding: 0;
-  -moz-appearance: textfield;
+  background: var(--panel);
 }
-.mcell::-webkit-outer-spin-button,
-.mcell::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.mcell:focus { outline: 2px solid var(--ink); outline-offset: -2px; }
-.mcell.weekend { background: var(--weekend); }
-.mcell::placeholder { color: transparent; }
+
+/* value-row Y-axis labels sit on the right edge of the label column */
+.vlabel { justify-content: flex-end; gap: 6px; }
+.vnum {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.vnum.editable { cursor: pointer; }
+.vnum.editable:hover { color: var(--ink); }
+.val-row .rmv {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 15px;
+  padding: 0 2px;
+  line-height: 1;
+  visibility: hidden;
+}
+.val-row:hover .rmv { visibility: visible; }
+.val-row .rmv:hover { color: var(--danger); }
+.addval button { color: var(--ink); }
+
+/* the trend line drawn over the value rows (skips the header row) */
+.metric-line {
+  position: absolute;
+  left: var(--label);
+  top: var(--row);
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
 
 /* ---------- footer / notes ---------- */
 .foot {

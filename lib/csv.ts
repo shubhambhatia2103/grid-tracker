@@ -12,11 +12,14 @@ function escape(value: string): string {
 export function monthToCsv(key: string, month: MonthData): string {
   const { year, month0 } = parseMonthKey(key);
   const n = daysInMonth(year, month0);
+  // Days before the chosen start are left out of the tracker, so leave them
+  // out of the export too.
+  const from = Math.min(Math.max(month.startDay ?? 1, 1), n);
 
   const header = ["Date", "Day", ...month.habits, "Sleep", "Mood", "Fasting"];
   const rows: string[] = [header.map(escape).join(",")];
 
-  for (let day = 1; day <= n; day++) {
+  for (let day = from; day <= n; day++) {
     const cols: string[] = [
       isoDate(year, month0, day),
       weekdayShort(year, month0, day),
