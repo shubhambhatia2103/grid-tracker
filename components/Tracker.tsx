@@ -580,7 +580,15 @@ function Footer() {
   return (
     <div className="foot">
       Export opens in Excel, or imports into Notion as a database (New page →
-      Import → CSV). Open source ·{" "}
+      Import → CSV).{" "}
+      <a
+        href="https://github.com/shubhambhatia2103/grid-tracker"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Open source
+      </a>{" "}
+      ·{" "}
       <a href="https://shubhambhatia.in" target="_blank" rel="noreferrer">
         shubhambhatia.in
       </a>
