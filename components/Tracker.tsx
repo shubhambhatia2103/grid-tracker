@@ -198,6 +198,19 @@ export default function Tracker() {
     downloadCsv(`grid-tracker-${monthK}.csv`, monthToCsv(monthK, month));
   };
 
+  // Print either the marks as tracked, or a blank grid to fill in by hand —
+  // toggled by a body class the print stylesheet reacts to.
+  const handlePrint = (blank: boolean) => {
+    document.body.classList.remove("print-blank");
+    if (blank) document.body.classList.add("print-blank");
+    const cleanup = () => {
+      document.body.classList.remove("print-blank");
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+    window.print();
+  };
+
   // Y-axis values top-to-bottom for a metric.
   const axisFor = (cfg: MetricConfig): number[] => {
     const raw = cfg.editable
@@ -243,6 +256,7 @@ export default function Tracker() {
           monthK={monthK}
           setMonthK={setMonthK}
           onExport={() => {}}
+          onPrint={() => {}}
           startDay={1}
           days={31}
           onStartDay={() => {}}
@@ -258,10 +272,13 @@ export default function Tracker() {
         monthK={monthK}
         setMonthK={setMonthK}
         onExport={exportCsv}
+        onPrint={handlePrint}
         startDay={month.startDay}
         days={days}
         onStartDay={setStartDay}
       />
+
+      <div className="print-heading">grid.tracker — {monthTitle(monthK)}</div>
 
       <div className="board">
         <div className="board-inner" style={boardStyle}>
@@ -314,11 +331,7 @@ export default function Tracker() {
                   />
                 ) : (
                   <>
-                    <span
-                      className="hname"
-                      title="Click to rename"
-                      onClick={() => setEditing(idx)}
-                    >
+                    <span className="hname" title={habit} onClick={() => setEditing(idx)}>
                       {habit}
                     </span>
                     <button
@@ -509,6 +522,7 @@ function Header({
   monthK,
   setMonthK,
   onExport,
+  onPrint,
   startDay,
   days,
   onStartDay,
@@ -516,6 +530,7 @@ function Header({
   monthK: string;
   setMonthK: (k: string) => void;
   onExport: () => void;
+  onPrint: (blank: boolean) => void;
   startDay: number;
   days: number;
   onStartDay: (n: number) => void;
@@ -568,6 +583,12 @@ function Header({
           </select>
         </label>
         <span className="spacer" />
+        <button className="action" onClick={() => onPrint(false)}>
+          Print
+        </button>
+        <button className="today-link" onClick={() => onPrint(true)}>
+          or blank
+        </button>
         <button className="action primary" onClick={onExport}>
           Export CSV
         </button>
