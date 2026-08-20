@@ -1,6 +1,6 @@
 :root {
   --col: 30px;          /* width of one day column */
-  --label: 148px;       /* width of the left label column */
+  --label: 178px;       /* width of the left label column */
   --row: 30px;          /* height of a grid row */
 
   --paper: #f6f5f0;
@@ -225,12 +225,14 @@ button {
 .habit-cell.weekend { background: var(--weekend); }
 .habit-cell.weekend:hover { background: var(--accent-soft); }
 
-.rowlabel.editable { gap: 6px; justify-content: space-between; }
+.rowlabel.editable { position: relative; gap: 6px; }
 .rowlabel .hname {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-right: 14px;
+  cursor: pointer;
 }
 .rowlabel .rmv {
   border: none;
@@ -243,6 +245,15 @@ button {
 }
 .grid-row:hover .rowlabel .rmv { visibility: visible; }
 .rowlabel .rmv:hover { color: var(--danger); }
+/* Take the remove button out of flow so it doesn't permanently reserve
+   width from the habit name — visibility:hidden still occupies layout
+   space, which was squeezing long names into an ellipsis needlessly. */
+.rowlabel.editable .rmv {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 .hname-input {
   flex: 1;
@@ -351,4 +362,56 @@ button {
 .loading {
   color: var(--muted);
   padding: 40px 0;
+}
+
+/* ---------- print ---------- */
+.print-heading { display: none; }
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 12mm;
+  }
+
+  :root {
+    /* Force a plain light, ink-cheap palette regardless of screen theme. */
+    --paper: #ffffff;
+    --panel: #ffffff;
+    --ink: #000000;
+    --text: #000000;
+    --muted: #555555;
+    --line: #999999;
+    --line-strong: #444444;
+    --weekend: #f0f0f0;
+    --today: #ffffff;
+    /* Slightly smaller day columns so a full month fits a printed page
+       width. Label column keeps its screen size — habit names need the
+       same room on paper as they do on screen. */
+    --col: 24px;
+    --row: 24px;
+  }
+
+  /* Interactive chrome has no place on paper. */
+  .topbar, .tagline, .monthbar, .foot, .add-habit, .rmv {
+    display: none !important;
+  }
+
+  .print-heading {
+    display: block;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .board {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+  .board-inner { min-width: 0; }
+  .corner, .rowlabel { position: static; }
+
+  /* Blank mode: keep the grid and axis labels, hide every mark. */
+  body.print-blank .habit-cell { color: transparent !important; }
+  body.print-blank .metric-line { display: none !important; }
 }
